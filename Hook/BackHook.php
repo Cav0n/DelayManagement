@@ -16,14 +16,6 @@ class BackHook extends BaseHook
 
         $params = ['order_id' => $orderId];
 
-        /** @var OrderDelay $delay */
-        $delay = OrderDelayQuery::create()
-            ->findOneByOrderId($orderId);
-
-        if (null !== $delay) {
-            $params['delay'] = $delay->get;
-        }
-
         $event->add(
             $this->render(
                 "order-bottom.html",

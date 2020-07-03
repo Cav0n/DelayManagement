@@ -1,0 +1,17 @@
+{extends file="email-layout.tpl"}
+
+{* Open in browser  *}
+{block name="browser"}{/block}
+
+{* Subject  *}
+{block name="email-subject"}{$subject}{/block}
+
+{* Title  *}
+{block name="email-title"}{intl l="Your order has been delayed"}{/block}
+
+{* Content  *}
+{block name="email-content"}
+{strip}
+    <p>{$message nofilter}</p>
+{/strip}
+{/block}

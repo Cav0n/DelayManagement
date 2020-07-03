@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<config xmlns="http://thelia.net/schema/dic/config"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://thelia.net/schema/dic/config http://thelia.net/schema/dic/config/thelia-1.0.xsd">
+
+    <loops>
+        <loop name="delays" class="DelayManagement\Loop\DelayLoop" />
+    </loops>
+
+    <forms>
+        <form name="delay-create" class="DelayManagement\Form\DelayCreateForm" />
+    </forms>
+
+    <hooks>
+        <hook id="delay_management.hook.back" class="DelayManagement\Hook\BackHook">
+            <tag name="hook.event_listener" event="order-edit.bottom" type="back" method="onOrderEditBottom" />
+            <tag name="hook.event_listener" event="order.edit-js" type="back" method="onOrderEditJs" />
+        </hook>
+    </hooks>
+</config>

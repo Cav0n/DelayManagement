@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module xmlns="http://thelia.net/schema/dic/module"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://thelia.net/schema/dic/module http://thelia.net/schema/dic/module/module-2_2.xsd">
+    <fullnamespace>DelayManagement\DelayManagement</fullnamespace>
+    <descriptive locale="en_US">
+        <title>Delay Management</title>
+        <subtitle>Allows different delay addition to orders</subtitle>
+    </descriptive>
+    <descriptive locale="fr_FR">
+        <title>Gestion de retards</title>
+        <subtitle>Permet de gérer différents type de retards aux commandes</subtitle>
+    </descriptive>
+    <languages>
+        <language>en_US</language>
+        <language>fr_FR</language>
+    </languages>
+    <version>1.0.0</version>
+    <author>
+        <name>Florian Bernard</name>
+        <email>fbernard@openstudio.fr</email>
+    </author>
+    <type>classic</type>
+    <required>
+        <module>AdminComment</module>
+    </required>
+    <thelia>2.4.0</thelia>
+    <stability>beta</stability>
+</module>

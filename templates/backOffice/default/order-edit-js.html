@@ -1,0 +1,19 @@
+<script>
+    $('#delay-select').on('change', function(event) {
+        let delayValue = this.value;
+        let delayText = $(this).find("option:selected").text();
+        $('#delay_dialog').modal('show');
+        $('#delay_dialog #delay-creation-information').html(`Vous êtes sur le point d'ajouter un retard <b>"` + delayText + `"</b> à la commande. Un email sera envoyé
+        automatiquement si vous cliquez sur "Ajouter le retard". Vous pouvez modifier le mail avec le formulaire
+        ci-dessous :`);
+        $('#delay_dialog #delay_type').val(delayValue);
+    });
+
+    $('#delay_send_without_mail').on('click', function(event) {
+        $('#delay_send_email').val(0);
+    })
+
+    $('#delay_send_with_mail').on('click', function(event) {
+        $('#delay_send_email').val(1);
+    })
+</script>

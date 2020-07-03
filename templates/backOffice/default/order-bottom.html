@@ -1,0 +1,102 @@
+<div class="general-block-decorator">
+    <div class="row">
+        <div class="col-md-4 title">
+            <p>Retard de la commande</p>
+        </div>
+        <div class="col-md-8">
+            {loop type="delays" name="order_delays" order_id=$order_id limit=1}
+                {assign var="current_type" value=$TYPE}
+            {/loop}
+            <select id="delay-select">
+                <option value="NONE" {if 'NONE' === $current_type} selected="selected" {/if}>Aucun retard</option>
+                <option value="LATE" {if 'LATE' === $current_type} selected="selected" {/if}>En retard</option>
+                <option value="VERY_LATE" {if 'VERY_LATE' === $current_type} selected="selected" {/if}>Très en retard</option>
+                <option value="EXTREME_LATE" {if 'EXTREME_LATE' === $current_type} selected="selected" {/if}>Extremement en retard</option>
+            </select>
+
+            <table class="table table-striped table-condensed table-left-aligned">
+                <thead>
+                    <th>Date de création</th>
+                    <th>Type de retard</th>
+                    <th>Email</th>
+                </thead>
+                <tbody>
+                    {loop type="delays" name="order_delays" order_id=$order_id}
+                        <tr>
+                            <td>{format_date date=$CREATED_AT}</td>
+                            <td>{$PRETTY_TYPE}</td>
+                            <td>{$EMAIL_OBJECT}</td>
+                        </tr>
+                    {/loop}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{form name="delay-create"}
+
+{* Capture the dialog body, to pass it to the generic dialog *}
+{capture "add_delay_dialog"}
+
+
+{loop type="order" name="delay-order" customer="*" order="create-date" limit=1 id=$order_id}
+    {assign var="order_ref" value=$REF}
+    {assign var="order_date" value={format_date date=$CREATE_DATE}}
+{/loop}
+
+<p id="delay-creation-information">
+    [COMPLETED IN JS]
+</p>
+
+{form_field field='order_id'}
+<input type="hidden" id="delay_order_id" name="{$name}" value="{$order_id}">
+{/form_field}
+
+{form_field field='type'}
+<input type="hidden" id="delay_type" name="{$name}" value="{$order_id}">
+{/form_field}
+
+{form_field field='send_email'}
+<input type="hidden" id="delay_send_email" name="{$name}" value=1>
+{/form_field}
+
+{render_form_field field='email_object' value="Classic Ride: retard de traitement de votre commande n°({$order_ref})"}
+{render_form_field field='email_text' value="Bonjour,
+Votre commande n° ({$order_ref}) du ({$order_date}) est en retard de traitement par nos service, et nous nous en excusons.
+Nous faisons notre possible pour traiter la commande le plus rapidement possible.
+Vous pouvez contacter notre service client pour en savoir plus au 07 70 02 26 73 (numéro non surtaxé), ou par email:
+
+Bien cordialement,
+l'équipe Classic Ride."}
+
+{/capture}
+
+<div class="modal fade" id="delay_dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3>{{intl l="Add delay to order"} nofilter}</h3>
+            </div>
+
+            <form method="POST" action="{{url path="/admin/order/delay/%id/add" id=$order_id} nofilter}" {{form_enctype} nofilter} {$form_attributes nofilter}>
+
+                <div class="modal-body">
+                    {if ! empty($form_error_message)}<div class="alert alert-danger" id="{$dialog_id}_error">{$form_error_message nofilter}</div>{/if}
+
+                    {{$smarty.capture.add_delay_dialog nofilter} nofilter}
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" id="delay_send_without_mail"><span class="glyphicon glyphicon-check"></span>{intl l="Add delay without mailing"}</button>
+                    <button type="submit" class="btn btn-primary" id="delay_send_with_mail"><span class="glyphicon glyphicon-check"></span>{intl l="Add delay"}</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+{/form}
